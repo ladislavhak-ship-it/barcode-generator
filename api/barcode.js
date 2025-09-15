@@ -11,8 +11,8 @@ export default async function handler(req, res) {
     const png = await bwipjs.toBuffer({
   bcid: format, // 'ean13' nebo 'code128'
   text: code,
-  scale: 3,
-  height: 15,
+  scale: 2,
+  height: 40,
   includetext: false,
   includeguardwhitespace: false, // ← toto skryje bílé okraje u code128
   paddingwidth: 0,
