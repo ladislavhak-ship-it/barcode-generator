@@ -15,8 +15,6 @@ export default async function handler(req, res) {
       height: 10,
       includetext: false,
       backgroundcolor: 'FFFFFF',
-      paddingwidth: 10,
-      paddingheight: 10
     });
 
     res.setHeader('Content-Type', 'image/png');
