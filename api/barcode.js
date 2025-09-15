@@ -12,7 +12,7 @@ export default async function handler(req, res) {
       bcid: format, // 'ean13' (default) or 'code128'
       text: code,
       scale: 2,
-      height: 10,
+      height: 20,
       includetext: false,
       backgroundcolor: 'FFFFFF',
       paddingwidth: 0,
