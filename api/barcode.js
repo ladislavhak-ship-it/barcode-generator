@@ -1,5 +1,3 @@
-// api/barcode.js
-
 import bwipjs from 'bwip-js';
 
 export default async function handler(req, res) {
@@ -16,7 +14,7 @@ export default async function handler(req, res) {
       scale: 3,
       height: 10,
       includetext: false,
-      backgroundcolor: 'FFFFFF',
+      backgroundcolor: 'ffffff00' // or 'FFFFFF'
     });
 
     res.setHeader('Content-Type', 'image/png');
