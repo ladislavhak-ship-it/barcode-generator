@@ -1,28 +1,29 @@
 import bwipjs from 'bwip-js';
 
 export default async function handler(req, res) {
-  const { code } = req.query;
+  const { code, format = 'ean13' } = req.query;
 
-  // validace EAN13 – 13 číslic
-  if (!code || !/^\d{13}$/.test(code)) {
-    return res.status(400).send('Invalid EAN-13 code. Must be 13 digits.');
+  if (!code) {
+    return res.status(400).send('Missing code parameter');
   }
 
   try {
     const png = await bwipjs.toBuffer({
-      bcid: 'ean13',
+      bcid: format, // 'ean13' (default) or 'code128'
       text: code,
-      scale: 2,               // měň na 3 nebo 4 podle potřeby
+      scale: 2,
       height: 10,
       includetext: false,
-      backgroundcolor: 'FFFFFF' // čistě bílé pozadí (ne ffffff00!)
+      backgroundcolor: 'FFFFFF',
+      paddingwidth: 10,
+      paddingheight: 10
     });
 
     res.setHeader('Content-Type', 'image/png');
     res.setHeader('Cache-Control', 'no-store');
     res.end(png);
   } catch (err) {
-    console.error(err);
-    res.status(500).send('Barcode generation error');
+    console.error('Error generating barcode:', err);
+    res.status(500).send(`Error generating barcode: ${err.message}`);
   }
 }
