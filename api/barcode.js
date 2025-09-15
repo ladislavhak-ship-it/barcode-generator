@@ -1,32 +1,29 @@
-import * as bwipjs from 'bwip-js';
+// api/barcode.js
+
+import bwipjs from 'bwip-js';
 
 export default async function handler(req, res) {
-  const code = req.query.code;
+  const { code } = req.query;
 
   if (!code) {
     return res.status(400).send('Missing code parameter');
   }
 
   try {
-    const pngBuffer = await new Promise((resolve, reject) => {
-      bwipjs.toBuffer(
-        {
-          bcid: 'ean13',
-          text: code,
-          scale: 3,
-          height: 10,
-          includetext: false,
-        },
-        (err, png) => {
-          if (err) reject(err);
-          else resolve(png);
-        }
-      );
+    const png = await bwipjs.toBuffer({
+      bcid:        'ean13',       // Barcode type
+      text:        code,          // Text to encode
+      scale:       3,             // 3x scaling factor
+      height:      10,            // Bar height, in mm
+      includetext: false,         // Don't show human-readable text
+      backgroundcolor: 'FFFFFF',  // Optional: white background
     });
 
     res.setHeader('Content-Type', 'image/png');
-    res.status(200).send(pngBuffer);
+    res.setHeader('Cache-Control', 'no-store');
+    res.send(png);
   } catch (err) {
-    res.status(500).send('Error generating barcode: ' + err.message);
+    console.error('Error generating barcode:', err);
+    res.status(500).send(`Error generating barcode: ${err.message}`);
   }
 }
