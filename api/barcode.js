@@ -3,28 +3,30 @@ import bwipjs from 'bwip-js';
 export default async function handler(req, res) {
   const { code } = req.query;
 
-  if (!code || code.length !== 13) {
-    return res.status(400).send('Invalid or missing EAN13 code.');
+  if (!code) {
+    return res.status(400).send('Missing code parameter');
   }
 
   try {
-    const svg = bwipjs.toBuffer({
-      bcid: 'ean13',
-      text: code,
-      scale: 3,
-      includetext: false,
-      backgroundcolor: 'FFFFFF',
-      paddingwidth: 5,
-      paddingheight: 5,
-      // Optional: suppress text under barcode
-      includetext: false,
-    }, { encoding: 'svg' });
+    const png = await new Promise((resolve, reject) => {
+      bwipjs.toBuffer({
+        bcid: 'ean13',
+        text: code,
+        scale: 3,
+        height: 10,
+        includetext: false,
+      }, function (err, png) {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(png);
+        }
+      });
+    });
 
-    const svgBuffer = await svg;
-
-    res.setHeader('Content-Type', 'image/svg+xml');
-    res.send(svgBuffer.toString());
+    res.setHeader('Content-Type', 'image/png');
+    res.status(200).send(png);
   } catch (err) {
-    res.status(500).send(`Error generating barcode: ${err.message}`);
+    res.status(500).send('Error generating barcode: ' + err.message);
   }
 }
