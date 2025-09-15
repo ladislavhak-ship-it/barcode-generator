@@ -1,7 +1,9 @@
 {
+  "name": "barcode-generator",
+  "version": "1.0.0",
+  "main": "index.js",
   "type": "module",
   "dependencies": {
-    "canvas": "^2.11.2",
-    "jsbarcode": "^3.11.5"
+    "bwip-js": "^2.1.5"
   }
 }
