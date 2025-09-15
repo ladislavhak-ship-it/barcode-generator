@@ -1,4 +1,4 @@
-import bwipjs from 'bwip-js';
+import * as bwipjs from 'bwip-js';
 
 export default async function handler(req, res) {
   const code = req.query.code;
@@ -8,22 +8,18 @@ export default async function handler(req, res) {
   }
 
   try {
-    // bwip-js používá callback => musíme zabalit do Promise
     const pngBuffer = await new Promise((resolve, reject) => {
       bwipjs.toBuffer(
         {
-          bcid: 'ean13',     // typ kódu
-          text: code,        // číselný EAN kód
+          bcid: 'ean13',
+          text: code,
           scale: 3,
           height: 10,
           includetext: false,
         },
-        function (err, png) {
-          if (err) {
-            reject(err);
-          } else {
-            resolve(png);
-          }
+        (err, png) => {
+          if (err) reject(err);
+          else resolve(png);
         }
       );
     });
