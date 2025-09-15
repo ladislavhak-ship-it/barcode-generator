@@ -1,9 +1,8 @@
 {
   "name": "barcode-generator",
   "version": "1.0.0",
-  "main": "index.js",
   "type": "module",
   "dependencies": {
-    "bwip-js": "^2.1.5"
+    "bwip-js": "^2.1.4"
   }
 }
