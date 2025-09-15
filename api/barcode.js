@@ -9,12 +9,14 @@ export default async function handler(req, res) {
 
   try {
     const png = await bwipjs.toBuffer({
-      bcid:        'ean13',
-      text:        code,
-      scale:       2,        // ✅ Ideální velikost pro Order Printer
-      height:      10,       // ✅ Výška (vyšší = tlustší čáry)
-      includetext: false,    // ✅ Bez textu pod čárovým kódem
-      backgroundcolor: 'FFFFFF' // ✅ Bílá bez průhlednosti
+      bcid: 'ean13',
+      text: code,
+      scale: 2,
+      height: 10,
+      includetext: false,
+      backgroundcolor: 'FFFFFF', // čistě bílé pozadí
+      paddingwidth: 10,           // potřebné pro správný výřez
+      paddingheight: 10
     });
 
     res.setHeader('Content-Type', 'image/png');
