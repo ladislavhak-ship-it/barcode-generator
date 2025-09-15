@@ -11,8 +11,8 @@ export default async function handler(req, res) {
     const png = await bwipjs.toBuffer({
       bcid: format, // 'ean13' (default) or 'code128'
       text: code,
-      scale: 3,
-      height: 40,
+      scale: 2,
+      height: 20,
       includetext: false,
       backgroundcolor: 'FFFFFF',
       paddingwidth: 0,
