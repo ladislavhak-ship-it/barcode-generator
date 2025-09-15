@@ -1,5 +1,3 @@
-// api/barcode.js
-
 import bwipjs from 'bwip-js';
 
 export default async function handler(req, res) {
@@ -11,12 +9,12 @@ export default async function handler(req, res) {
 
   try {
     const png = await bwipjs.toBuffer({
-      bcid: 'ean13',
-      text: code,
-      scale: 3,
-      height: 10,
-      includetext: false,
-      backgroundcolor: 'FFFFFF',
+      bcid:        'ean13',
+      text:        code,
+      scale:       2,        // ✅ Ideální velikost pro Order Printer
+      height:      10,       // ✅ Výška (vyšší = tlustší čáry)
+      includetext: false,    // ✅ Bez textu pod čárovým kódem
+      backgroundcolor: 'FFFFFF' // ✅ Bílá bez průhlednosti
     });
 
     res.setHeader('Content-Type', 'image/png');
