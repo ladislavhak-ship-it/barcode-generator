@@ -9,15 +9,16 @@ export default async function handler(req, res) {
 
   try {
     const png = await bwipjs.toBuffer({
-      bcid: format, // 'ean13' (default) or 'code128'
+      bcid: format,              // 'ean13' or 'code128'
       text: code,
       scale: 2,
-      height: 20,
+      height: 10,
       includetext: false,
       backgroundcolor: 'FFFFFF',
+      padding: 0,
       paddingwidth: 0,
       paddingheight: 0,
-      padding: 0,
+      monochrome: true,         // ✅ čistý černobílý výstup, bez artefaktů
     });
 
     res.setHeader('Content-Type', 'image/png');
